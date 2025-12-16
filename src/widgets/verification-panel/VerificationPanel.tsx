@@ -2,15 +2,27 @@ import { useAppStore } from '@/shared/store/useAppStore';
 import { ImageViewer } from '@/widgets/image-viewer/ImageViewer';
 import { PdfViewer } from '@/widgets/pdf-viewer/PdfViewer';
 import { FormPanel } from '@/widgets/form-panel/FormPanel';
-import { X } from 'lucide-react';
+import { X, Download } from 'lucide-react';
+import { generateDentalChartPDF } from '@/shared/utils/generatePDF';
 
 export const VerificationPanel = () => {
   const currentPage = useAppStore((state) => state.currentPage);
   const resetPage = useAppStore((state) => state.resetPage);
+  const formData = useAppStore((state) => state.formData);
+  const extractedData = useAppStore((state) => state.extractedData);
 
   const handleCancel = () => {
     if (window.confirm('Are you sure you want to cancel? All unsaved changes will be lost.')) {
       resetPage();
+    }
+  };
+
+  const handleDownloadPDF = () => {
+    try {
+      generateDentalChartPDF(formData, extractedData);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert('Failed to generate PDF. Please try again.');
     }
   };
 
@@ -39,15 +51,28 @@ export const VerificationPanel = () => {
             </p>
           </div>
 
-          {/* Cancel/Exit Button */}
-          <button
-            onClick={handleCancel}
-            className="p-2 hover:bg-red-50 rounded-lg transition-colors flex items-center gap-2 text-red-600 hover:text-red-700 border border-red-200 hover:border-red-300"
-            title="Cancel and return to main page"
-          >
-            <X className="h-5 w-5" />
-            <span className="hidden sm:inline text-sm font-medium">Cancel</span>
-          </button>
+          {/* Action Buttons */}
+          <div className="flex gap-2">
+            {/* Download PDF Button */}
+            <button
+              onClick={handleDownloadPDF}
+              className="p-2 hover:bg-primary-light rounded-lg transition-colors flex items-center gap-2 text-primary hover:text-primary-hover border border-primary hover:border-primary-hover"
+              title="Download complete dental chart as PDF"
+            >
+              <Download className="h-5 w-5" />
+              <span className="hidden sm:inline text-sm font-medium">Download PDF</span>
+            </button>
+
+            {/* Cancel/Exit Button */}
+            <button
+              onClick={handleCancel}
+              className="p-2 hover:bg-red-50 rounded-lg transition-colors flex items-center gap-2 text-red-600 hover:text-red-700 border border-red-200 hover:border-red-300"
+              title="Cancel and return to main page"
+            >
+              <X className="h-5 w-5" />
+              <span className="hidden sm:inline text-sm font-medium">Cancel</span>
+            </button>
+          </div>
         </div>
 
         {/* Form Section */}

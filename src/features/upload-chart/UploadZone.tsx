@@ -282,8 +282,12 @@ function flattenExtractedData(data: any): Record<string, unknown> {
   }
 
   // --- Page 4: Treatment Records ---
+  // IMPORTANT: Keep the entire treatmentRecord array for PDF generation
   if (data.treatmentRecord && Array.isArray(data.treatmentRecord) && data.treatmentRecord.length > 0) {
-    // Take the last record (most recent?)
+    // Preserve the full array for PDF table
+    flattened['treatmentRecord'] = data.treatmentRecord;
+    
+    // Also flatten the last record for form fields (backward compatibility)
     const record = data.treatmentRecord[data.treatmentRecord.length - 1];
 
     if (record.toothQuantity) flattened['toothNumbers'] = record.toothQuantity;
