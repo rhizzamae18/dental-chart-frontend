@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Poppins', sans-serif;
+  }
+}
+
+/* Hide scrollbar but keep functionality */
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Add this OUTSIDE of .scrollbar-hide */
+  .no-spinner::-webkit-outer-spin-button,
+  .no-spinner::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .no-spinner[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  /* Success Modal Animations */
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out;
+  }
+
+  .animate-bounce-in {
+    animation: bounceIn 0.5s ease-out;
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes bounceIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.3);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    70% {
+      transform: scale(0.9);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+:root {
+  /* Primary Brand Colors - Dental Chart Blue (#3F638D) */
+  --color-primary: 63 99 141;
+  /* #3F638D */
+  --color-primary-hover: 51 79 113;
+  /* Darker shade of #3F638D */
+  --color-primary-light: 235 240 245;
+  /* Light blue-gray */
+  --color-primary-border: 86 124 137;
+  /* #567C89 */
+
+  /* Accent Colors - Secondary Blue-Gray (#567C89) */
+  --color-accent: 86 124 137;
+  /* #567C89 */
+  --color-accent-light: 240 244 247;
+  /* Light blue-gray */
+
+  /* Text Colors*/
+  --color-text-primary: 63 99 141;
+  /* #3F638D for headings */
+  --color-text-secondary: 86 124 137;
+  /* #567C89 for body text */
+  --color-text-muted: 156 163 175;
+  /* gray-400*/
+
+  /* Background Colors */
+  --color-bg-primary: 255 255 255;
+  /* white*/
+  --color-bg-secondary: 245 247 250;
+  /* light gray background */
+  --color-bg-dark: 63 99 141;
+  /* #3F638D */
+  --color-bg-darker: 51 79 113;
+  /* Darker #3F638D */
+
+  /* Border Colors */
+  --color-border-default: 86 124 137;
+  /* #567C89 */
+  --color-border-dark: 63 99 141;
+  /* #3F638D */
+
+  /* Status Colors (for future use) */
+  --color-success: 34 197 94;
+  /* green-500*/
+  --color-warning: 234 179 8;
+  /*yellow-500*/
+  --color-error: 239 68 68;
+  /*red-500*/
+}
