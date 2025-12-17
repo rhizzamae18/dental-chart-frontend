@@ -1,12 +1,26 @@
-import { CheckCircle, X } from 'lucide-react';
+import { CheckCircle, X, Download } from 'lucide-react';
+import { generateDentalChartPDF } from '@/shared/utils/generatePDF';
 
 interface SuccessModalProps {
     isOpen: boolean;
     onClose: () => void;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    formData?: Record<string, any>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    extractedData?: Record<string, any>;
 }
 
-export const SuccessModal = ({ isOpen, onClose }: SuccessModalProps) => {
+export const SuccessModal = ({ isOpen, onClose, formData = {}, extractedData = {} }: SuccessModalProps) => {
     if (!isOpen) return null;
+
+    const handleDownloadPDF = () => {
+        try {
+            generateDentalChartPDF(formData, extractedData);
+        } catch (error) {
+            console.error('Error generating PDF:', error);
+            alert('Failed to generate PDF. Please try again.');
+        }
+    };
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -44,13 +58,25 @@ export const SuccessModal = ({ isOpen, onClose }: SuccessModalProps) => {
                         All your dental chart information has been saved successfully.
                     </p>
 
-                    {/* Action Button */}
-                    <button
-                        onClick={onClose}
-                        className="px-8 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary-hover transition-colors w-full"
-                    >
-                        Close
-                    </button>
+                    {/* Action Buttons */}
+                    <div className="flex flex-col gap-3 w-full">
+                        {/* Download PDF Button */}
+                        <button
+                            onClick={handleDownloadPDF}
+                            className="px-8 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary-hover transition-colors w-full flex items-center justify-center gap-2"
+                        >
+                            <Download className="h-5 w-5" />
+                            Download PDF
+                        </button>
+
+                        {/* Close Button */}
+                        <button
+                            onClick={onClose}
+                            className="px-8 py-3 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors w-full"
+                        >
+                            Close
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

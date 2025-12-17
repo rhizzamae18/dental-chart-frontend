@@ -2,18 +2,12 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import pdaLogo from '@/assets/images/logo/logo.png';
 
-// Extend jsPDF type to include autoTable
-declare module 'jspdf' {
-  interface jsPDF {
-    autoTable: (options: any) => jsPDF;
-    lastAutoTable: { finalY: number };
-  }
-}
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const generateDentalChartPDF = (formData: Record<string, any>, extractedData: Record<string, any>) => {
   // Merge extracted and form data, prioritizing form data
   const data = { ...extractedData, ...formData };
-  
+
   // Helper to get data value safely with fallback for API field names
   const getData = (key: string) => {
     // Field mapping for API keys
@@ -51,7 +45,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
       'nursing': ['nursing', 'women_nursing'],
       'birthControl': ['birthControl', 'women_takingBirthControl', 'takingBirthControl', 'women_birthControl'],
     };
-    
+
     // Check if we have a mapping for this key
     const possibleKeys = fieldMap[key] || [key];
     for (const k of possibleKeys) {
@@ -61,24 +55,24 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
     }
     return '';
   };
-  
+
   // Helper to check if value is yes/true
   const isYes = (key: string) => {
     const value = getData(key);
     return value === 'yes' || value === 'Yes' || value === 'YES' || value === true || value === 'true';
   };
-  
+
   // Helper to check if value is no/false
   const isNo = (key: string) => {
     const value = getData(key);
     return value === 'no' || value === 'No' || value === 'NO' || value === false || value === 'false';
   };
-  
+
   const doc = new jsPDF('p', 'mm', 'letter');
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
   const margin = 13;
-  
+
   // Helper to draw PDA header for Page 1
   const drawPDAHeaderPage1 = () => {
     // Add PDA Logo (top-left) - circular
@@ -90,13 +84,13 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
       doc.setLineWidth(1.5);
       doc.circle(margin + 19, 26, 13);
     }
-    
+
     // "PHILIPPINE DENTAL ASSOCIATION" text
     doc.setTextColor(0, 0, 0);
     doc.setFontSize(14);
     doc.setFont('helvetica', 'bold');
     doc.text('PHILIPPINE DENTAL ASSOCIATION', margin + 45, 20);
-    
+
     // Blue rounded rectangle for "DENTAL CHART"
     doc.setFillColor(52, 152, 219);
     doc.roundedRect(margin + 45, 25, 70, 10, 2, 2, 'F');
@@ -104,7 +98,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
     doc.setFontSize(11);
     doc.setFont('helvetica', 'bold');
     doc.text('DENTAL CHART', margin + 80, 31, { align: 'center' });
-    
+
     // Photo box (top-right)
     doc.setDrawColor(0, 0, 0);
     doc.setLineWidth(0.5);
@@ -112,37 +106,15 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
     doc.setFontSize(9);
     doc.setTextColor(150, 150, 150);
     doc.text('(Photo)', pageWidth - margin - 24, 27, { align: 'center' });
-    
-    doc.setTextColor(0, 0, 0);
-  };
 
-  // Helper function to draw field with label
-  const drawField = (label: string, value: any, x: number, y: number, width: number, showLabel: boolean = true) => {
-    if (showLabel) {
-      doc.setFontSize(8);
-      doc.setFont('helvetica', 'normal');
-      doc.setTextColor(100, 100, 100);
-      doc.text(label, x, y - 1);
-    }
-    
-    doc.setFont('helvetica', 'normal');
     doc.setTextColor(0, 0, 0);
-    doc.setFontSize(9);
-    const displayValue = value !== undefined && value !== null && value !== '' ? String(value) : '';
-    const maxWidth = width - 2;
-    const lines = doc.splitTextToSize(displayValue, maxWidth);
-    doc.text(lines[0] || '', x + 1, y + 3.5);
-    
-    doc.setDrawColor(150, 150, 150);
-    doc.setLineWidth(0.3);
-    doc.line(x, y + 5, x + width, y + 5);
   };
 
   // Helper for Yes/No checkboxes
   const drawYesNoCheckbox = (x: number, y: number, yesChecked: boolean, noChecked: boolean) => {
     doc.setDrawColor(100, 100, 100);
     doc.setLineWidth(0.3);
-    
+
     // Yes checkbox
     doc.rect(x, y, 3, 3);
     if (yesChecked) {
@@ -153,7 +125,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
     doc.setFontSize(8);
     doc.setFont('helvetica', 'normal');
     doc.text('Yes', x + 4, y + 2.3);
-    
+
     // No checkbox
     doc.rect(x + 12, y, 3, 3);
     if (noChecked) {
@@ -165,7 +137,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
     doc.setFont('helvetica', 'normal');
     doc.text('No', x + 16, y + 2.3);
   };
-  
+
   // Helper for parenthesis checkbox
   const drawParenCheckbox = (label: string, checked: boolean, x: number, y: number) => {
     doc.setFontSize(8);
@@ -197,19 +169,20 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
   doc.text('Name:', margin, yPos);
-  
+
   // Draw underlines for name fields  
   doc.setDrawColor(0, 0, 0);
   doc.setLineWidth(0.3);
   const nameStartX = margin + 13;
   const nameWidth1 = 50;
   const nameWidth2 = 52;
-  const nameWidth3 = 45;
-  
+  // nameWidth3 reserved for future use
+  // const nameWidth3 = 45;
+
   doc.line(nameStartX, yPos + 1, nameStartX + nameWidth1, yPos + 1);
   doc.line(nameStartX + nameWidth1 + 3, yPos + 1, nameStartX + nameWidth1 + nameWidth2 + 3, yPos + 1);
   doc.line(nameStartX + nameWidth1 + nameWidth2 + 6, yPos + 1, pageWidth - margin, yPos + 1);
-  
+
   // Write actual names
   doc.setFontSize(8);
   doc.setTextColor(0, 0, 0);
@@ -219,7 +192,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.text(lastName, nameStartX + 2, yPos - 0.5);
   doc.text(firstName, nameStartX + nameWidth1 + 5, yPos - 0.5);
   doc.text(middleName, nameStartX + nameWidth1 + nameWidth2 + 8, yPos - 0.5);
-  
+
   // Labels below underlines
   doc.setFontSize(7);
   doc.setTextColor(100, 100, 100);
@@ -232,15 +205,15 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(0, 0, 0);
-  
+
   doc.text('Birthdate(mm/dd/yy):', margin, yPos);
   doc.line(margin + 37, yPos + 1, margin + 70, yPos + 1);
   doc.text(getData('birthdate'), margin + 38, yPos - 0.5);
-  
+
   doc.text('Age:', margin + 75, yPos);
   doc.line(margin + 85, yPos + 1, margin + 94, yPos + 1);
   doc.text(getData('age').toString(), margin + 86, yPos - 0.5);
-  
+
   doc.text('Sex: M/F', margin + 99, yPos);
   const sexValue = getData('sex').toString().toUpperCase();
   doc.rect(margin + 116, yPos - 3, 3, 3);
@@ -255,7 +228,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
     doc.text('X', margin + 122.5, yPos - 0.5);
     doc.setFont('helvetica', 'normal');
   }
-  
+
   doc.text('Nickname:', margin + 129, yPos);
   doc.line(margin + 147, yPos + 1, pageWidth - margin, yPos + 1);
   doc.text(getData('nickname'), margin + 148, yPos - 0.5);
@@ -265,7 +238,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.text('Religion:', margin, yPos);
   doc.line(margin + 20, yPos + 1, margin + 85, yPos + 1);
   doc.text(getData('religion'), margin + 21, yPos - 0.5);
-  
+
   doc.text('Nationality:', margin + 90, yPos);
   doc.line(margin + 109, yPos + 1, pageWidth - margin, yPos + 1);
   doc.text(getData('nationality'), margin + 110, yPos - 0.5);
@@ -275,7 +248,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.text('Home Address:', margin, yPos);
   doc.line(margin + 29, yPos + 1, margin + 125, yPos + 1);
   doc.text(getData('homeAddress'), margin + 30, yPos - 0.5);
-  
+
   doc.text('Home No.:', margin + 130, yPos);
   doc.line(margin + 150, yPos + 1, pageWidth - margin, yPos + 1);
   doc.text(getData('homeNumber'), margin + 151, yPos - 0.5);
@@ -285,7 +258,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.text('Occupation:', margin, yPos);
   doc.line(margin + 25, yPos + 1, margin + 95, yPos + 1);
   doc.text(getData('occupation'), margin + 26, yPos - 0.5);
-  
+
   doc.text('Office No.:', margin + 100, yPos);
   doc.line(margin + 120, yPos + 1, pageWidth - margin, yPos + 1);
   doc.text(getData('officeNumber'), margin + 121, yPos - 0.5);
@@ -295,17 +268,17 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.text('Dental Insurance:', margin, yPos);
   doc.line(margin + 35, yPos + 1, margin + 95, yPos + 1);
   doc.text(getData('dentalInsurance'), margin + 36, yPos - 0.5);
-  
+
   doc.text('Fax No.:', margin + 100, yPos);
   doc.line(margin + 118, yPos + 1, pageWidth - margin, yPos + 1);
   doc.text(getData('faxNumber'), margin + 119, yPos - 0.5);
   yPos += 6;
-  
+
   // Effective Date and Cell/Mobile No row
   doc.text('Effective Date:', margin, yPos);
   doc.line(margin + 32, yPos + 1, margin + 95, yPos + 1);
   doc.text(getData('effectiveDate'), margin + 33, yPos - 0.5);
-  
+
   doc.text('Cell/Mobile No.:', margin + 100, yPos);
   doc.line(margin + 130, yPos + 1, pageWidth - margin, yPos + 1);
   doc.text(getData('mobileNumber'), margin + 131, yPos - 0.5);
@@ -362,7 +335,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.text('Previous Dentist: Dr.', margin, yPos);
   doc.line(margin + 40, yPos + 1, margin + 105, yPos + 1);
   doc.text(getData('previousDentist'), margin + 41, yPos - 0.5);
-  
+
   doc.text('Last Dental visit:', margin + 110, yPos);
   doc.line(margin + 137, yPos + 1, pageWidth - margin, yPos + 1);
   doc.text(getData('lastDentalVisit'), margin + 138, yPos - 0.5);
@@ -380,7 +353,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.text('Name of Physician: Dr.', margin, yPos);
   doc.line(margin + 45, yPos + 1, margin + 105, yPos + 1);
   doc.text(getData('physicianName'), margin + 46, yPos - 0.5);
-  
+
   doc.text('Specialty, if applicable:', margin + 110, yPos);
   doc.line(margin + 147, yPos + 1, pageWidth - margin, yPos + 1);
   doc.text(getData('physicianSpecialty'), margin + 148, yPos - 0.5);
@@ -389,7 +362,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.text('Office Address:', margin, yPos);
   doc.line(margin + 30, yPos + 1, margin + 105, yPos + 1);
   doc.text(getData('physicianAddress'), margin + 31, yPos - 0.5);
-  
+
   doc.text('Office Number:', margin + 110, yPos);
   doc.line(margin + 137, yPos + 1, pageWidth - margin, yPos + 1);
   doc.text(getData('physicianPhone'), margin + 138, yPos - 0.5);
@@ -399,12 +372,12 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(0, 0, 0);
-  
+
   // Question 1
   doc.text('1. Are you in good health?', margin, yPos);
   drawYesNoCheckbox(pageWidth - margin - 27, yPos - 2, isYes('goodHealth'), isNo('goodHealth'));
   yPos += 4.5;
-  
+
   // Question 2
   doc.text('2. Are you under medical treatment now?', margin, yPos);
   drawYesNoCheckbox(pageWidth - margin - 27, yPos - 2, isYes('underTreatment'), isNo('underTreatment'));
@@ -412,7 +385,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.setFontSize(7);
   doc.text('   If so, what is the condition being treated?', margin, yPos);
   yPos += 4.5;
-  
+
   // Question 3
   doc.setFontSize(8);
   doc.text('3. Have you ever been hospitalized or had serious illness or surgical operation?', margin, yPos);
@@ -422,7 +395,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.text('   If so, what illness or operation?', margin, yPos);
   doc.line(margin + 55, yPos + 1, pageWidth - margin, yPos + 1);
   yPos += 4.5;
-  
+
   // Question 4
   doc.setFontSize(8);
   doc.text('4. Have you been hospitalized?', margin, yPos);
@@ -432,7 +405,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.text('   If so, when and why?', margin, yPos);
   doc.line(margin + 40, yPos + 1, pageWidth - margin, yPos + 1);
   yPos += 4.5;
-  
+
   // Question 5
   doc.setFontSize(8);
   doc.text('5. Are you taking any prescription/non-prescription medication?', margin, yPos);
@@ -442,7 +415,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.text('   If so, please specify', margin, yPos);
   doc.line(margin + 40, yPos + 1, pageWidth - margin, yPos + 1);
   yPos += 1;
-  
+
   // Footer for Page 1
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
@@ -454,30 +427,30 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   // ============================
   doc.addPage();
   yPos = margin + 5;
-  
+
   // Continue Questions 6-13
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(0, 0, 0);
-  
+
   // Question 6
   doc.text('6. Do you use tobacco products?', margin, yPos);
   drawYesNoCheckbox(pageWidth - margin - 27, yPos - 2, isYes('tobacco'), isNo('tobacco'));
   yPos += 5;
-  
+
   // Question 7
   doc.text('7. Do you use alcohol, cocaine or other dangerous drugs?', margin, yPos);
   drawYesNoCheckbox(pageWidth - margin - 27, yPos - 2, isYes('dangerousDrugs'), isNo('dangerousDrugs'));
   yPos += 5;
-  
+
   // Question 8 - Allergies
   doc.text('8. Are you allergic to any of the following:', margin, yPos);
   yPos += 4;
-  
+
   const col1X = margin + 5;
   const col2X = margin + 70;
   const col3X = margin + 130;
-  
+
   doc.setFontSize(7);
   drawParenCheckbox('Local Anesthetic (ex. Lidocaine)', isYes('allergyAnesthetic') || isYes('allergy_anesthetic'), col1X, yPos);
   drawParenCheckbox('Penicillin, Antibiotics', isYes('allergyPenicillin') || isYes('allergy_penicillin'), col2X, yPos);
@@ -490,14 +463,14 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   yPos += 3.5;
   drawParenCheckbox('Others', isYes('allergyOthers') || isYes('allergy_others'), col3X, yPos);
   yPos += 5;
-  
+
   // Question 9
   doc.setFontSize(8);
   doc.text('9. Bleeding Time:', margin, yPos);
   doc.line(margin + 30, yPos + 1, margin + 60, yPos + 1);
   doc.text(getData('bleedingTime'), margin + 32, yPos - 0.5);
   yPos += 5;
-  
+
   // Question 10
   doc.text('10. For women only:', margin, yPos);
   yPos += 4;
@@ -510,19 +483,19 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.text('    Are you taking birth control pills?', margin, yPos);
   drawYesNoCheckbox(pageWidth - margin - 27, yPos - 2, isYes('birthControl'), isNo('birthControl'));
   yPos += 5;
-  
+
   doc.text('11.', margin, yPos);
   doc.text('Blood Type:', margin + 6, yPos);
   doc.line(margin + 25, yPos + 1, margin + 50, yPos + 1);
   doc.text(getData('bloodType'), margin + 27, yPos - 0.5);
   yPos += 5;
-  
+
   doc.text('12.', margin, yPos);
   doc.text('Blood Pressure:', margin + 6, yPos);
   doc.line(margin + 30, yPos + 1, margin + 60, yPos + 1);
   doc.text(getData('bloodPressure'), margin + 32, yPos - 0.5);
   yPos += 6;
-  
+
   doc.text('13.', margin, yPos);
   doc.text('Do you have or have you had any of the following? Check which apply:', margin + 6, yPos);
   yPos += 4;
@@ -548,7 +521,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   const condCol1X = margin + 3;
   const condCol2X = margin + 65;
   const condCol3X = margin + 125;
-  
+
   // Map display names to actual field keys from AI extraction
   const conditionKeyMap: Record<string, string> = {
     'High Blood Pressure': 'highBloodPressure',
@@ -686,7 +659,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
     doc.setFontSize(7);
     doc.text(section.title, margin, yPos);
     yPos += 3;
-    
+
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(6.5);
     const lines = doc.splitTextToSize(section.text, pageWidth - 2 * margin);
@@ -701,20 +674,20 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   const finalLines = doc.splitTextToSize(finalConsent, pageWidth - 2 * margin);
   doc.text(finalLines, margin, yPos);
   yPos += finalLines.length * 2.8 + 5;
-  
+
   doc.setDrawColor(0, 0, 0);
   doc.setLineWidth(0.3);
   doc.line(margin, yPos, margin + 70, yPos);
   doc.setFontSize(7);
   doc.text('Patient/Parent/Guardian Signature', margin, yPos + 3.5);
-  
+
   doc.line(margin + 85, yPos, margin + 130, yPos);
   doc.text('Date', margin + 100, yPos + 3.5);
-  
+
   yPos += 8;
   doc.line(margin, yPos, margin + 70, yPos);
   doc.text('Dentist Signature', margin, yPos + 3.5);
-  
+
   doc.line(margin + 85, yPos, margin + 130, yPos);
   doc.text('Date', margin + 100, yPos + 3.5);
 
@@ -744,7 +717,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.setFontSize(9);
   doc.setFont('helvetica', 'bold');
   doc.text('INTRAORAL EXAMINATION', margin, yPos);
-  
+
   // Patient info on the right
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
@@ -766,91 +739,91 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.setFont('helvetica', 'bold');
   doc.text('RIGHT', margin + 5, chartStartY + 15);
   doc.text('LEFT', pageWidth - margin - 20, chartStartY + 15);
-  
+
   // Upper permanent teeth (18-11 and 21-28)
-  const upperPerm = ['18','17','16','15','14','13','12','11','21','22','23','24','25','26','27','28'];
+  const upperPerm = ['18', '17', '16', '15', '14', '13', '12', '11', '21', '22', '23', '24', '25', '26', '27', '28'];
   let xPos = chartCenterX - (upperPerm.length * toothWidth / 2);
   yPos = chartStartY + 5;
-  
+
   doc.setFontSize(6);
   doc.setFont('helvetica', 'normal');
   doc.setDrawColor(0, 0, 0);
   doc.setLineWidth(0.4);
-  
+
   // Upper teeth numbers above circles
   upperPerm.forEach((tooth) => {
     doc.text(tooth, xPos + 2.5, yPos, { align: 'center' });
     xPos += toothWidth;
   });
-  
+
   yPos += 3;
   xPos = chartCenterX - (upperPerm.length * toothWidth / 2);
-  
+
   // Upper teeth circles
-  upperPerm.forEach((tooth) => {
+  upperPerm.forEach(() => {
     doc.circle(xPos + 3.5, yPos + 3, 3);
     xPos += toothWidth;
   });
-  
+
   yPos += 10;
-  
+
   // Upper primary/deciduous teeth (55-51 and 61-65)
-  const upperDecid = ['55','54','53','52','51','61','62','63','64','65'];
+  const upperDecid = ['55', '54', '53', '52', '51', '61', '62', '63', '64', '65'];
   xPos = chartCenterX - (upperDecid.length * toothWidth / 2);
-  
-  upperDecid.forEach((tooth) => {
+
+  upperDecid.forEach(() => {
     doc.circle(xPos + 3.5, yPos + 2, 2.2);
     xPos += toothWidth;
   });
-  
+
   yPos += 2;
   xPos = chartCenterX - (upperDecid.length * toothWidth / 2);
-  
+
   upperDecid.forEach((tooth) => {
     doc.text(tooth, xPos + 2.5, yPos + 3, { align: 'center' });
     xPos += toothWidth;
   });
-  
+
   yPos += 8;
-  
+
   // Lower primary/deciduous teeth (85-81 and 71-75)
-  const lowerDecid = ['85','84','83','82','81','71','72','73','74','75'];
+  const lowerDecid = ['85', '84', '83', '82', '81', '71', '72', '73', '74', '75'];
   xPos = chartCenterX - (lowerDecid.length * toothWidth / 2);
-  
+
   lowerDecid.forEach((tooth) => {
     doc.text(tooth, xPos + 2.5, yPos, { align: 'center' });
     xPos += toothWidth;
   });
-  
+
   yPos += 2;
   xPos = chartCenterX - (lowerDecid.length * toothWidth / 2);
-  
-  lowerDecid.forEach((tooth) => {
+
+  lowerDecid.forEach(() => {
     doc.circle(xPos + 3.5, yPos + 2, 2.2);
     xPos += toothWidth;
   });
-  
+
   yPos += 8;
-  
+
   // Lower permanent teeth (48-41 and 31-38)
-  const lowerPerm = ['48','47','46','45','44','43','42','41','31','32','33','34','35','36','37','38'];
+  const lowerPerm = ['48', '47', '46', '45', '44', '43', '42', '41', '31', '32', '33', '34', '35', '36', '37', '38'];
   xPos = chartCenterX - (lowerPerm.length * toothWidth / 2);
-  
+
   // Lower teeth circles
-  lowerPerm.forEach((tooth) => {
+  lowerPerm.forEach(() => {
     doc.circle(xPos + 3.5, yPos + 3, 3);
     xPos += toothWidth;
   });
-  
+
   yPos += 6;
   xPos = chartCenterX - (lowerPerm.length * toothWidth / 2);
-  
+
   // Lower teeth numbers below circles
   lowerPerm.forEach((tooth) => {
     doc.text(tooth, xPos + 2.5, yPos, { align: 'center' });
     xPos += toothWidth;
   });
-  
+
   yPos += 10;
 
   // Legend section
@@ -858,14 +831,14 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.setFont('helvetica', 'bold');
   doc.text('LEGEND:', margin, yPos);
   yPos += 4;
-  
+
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(6.5);
   const legendCol1 = margin;
   const legendCol2 = margin + 48;
   const legendCol3 = margin + 96;
   const legendCol4 = margin + 144;
-  
+
   const legends = [
     ['D - Decay/Caries', 'Am - Amalgam Filling', 'X - Extraction', 'P - Present Tooth'],
     ['M - Missing', 'Co - Composite Filling', 'Im - Impacted', 'Ab - Abutment'],
@@ -873,7 +846,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
     ['S - Supernumerary', 'In - Inlay', 'RCT - Root Canal', 'FGC - Full Gold Crown'],
     ['', 'Imp - Implant', 'MO - Missing due to other cause', '']
   ];
-  
+
   legends.forEach((row) => {
     if (row[0]) doc.text(row[0], legendCol1, yPos);
     if (row[1]) doc.text(row[1], legendCol2, yPos);
@@ -881,15 +854,15 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
     if (row[3]) doc.text(row[3], legendCol4, yPos);
     yPos += 3;
   });
-  
+
   yPos += 4;
-  
+
   // Clinical findings section
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(7);
-  
+
   const findingsStartY = yPos;
-  
+
   // Column 1: Periodontal Screening
   doc.text('Periodontal Screening:', margin, yPos);
   yPos += 3.5;
@@ -900,7 +873,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
     doc.text(item, margin, yPos);
     yPos += 3;
   });
-  
+
   // Column 2: Occlusion
   yPos = findingsStartY;
   doc.setFont('helvetica', 'bold');
@@ -914,7 +887,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
     doc.text(item, margin + 48, yPos);
     yPos += 3;
   });
-  
+
   // Column 3: Appliances
   yPos = findingsStartY;
   doc.setFont('helvetica', 'bold');
@@ -928,7 +901,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
     doc.text(item, margin + 96, yPos);
     yPos += 3;
   });
-  
+
   // Column 4: TMJ/TMD
   yPos = findingsStartY;
   doc.setFont('helvetica', 'bold');
@@ -942,9 +915,9 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
     doc.text(item, margin + 144, yPos);
     yPos += 3;
   });
-  
+
   yPos = findingsStartY + 26;
-  
+
   // Additional clinical notes
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(7);
@@ -990,17 +963,17 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
 
   // Treatment table - populate with actual treatment records
   const tableBody = [];
-  
+
   console.log('🔍 Checking treatment data...');
   console.log('📦 Full data object:', data);
   console.log('📋 data.treatmentRecord:', data.treatmentRecord);
   console.log('📝 formData keys:', Object.keys(formData));
   console.log('🔬 extractedData keys:', Object.keys(extractedData));
-  
+
   // First, check if user edited treatment record in form (Page 4 review)
-  const hasFormTreatmentData = formData.treatmentDate || formData.toothNumbers || formData.procedure || 
-                                formData.dentistName || formData.amountCharged || formData.amountPaid;
-  
+  const hasFormTreatmentData = formData.treatmentDate || formData.toothNumbers || formData.procedure ||
+    formData.dentistName || formData.amountCharged || formData.amountPaid;
+
   if (hasFormTreatmentData) {
     // User edited treatment record in form - use form data (highest priority)
     console.log('✅ Using edited treatment record from form');
@@ -1021,7 +994,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
     // Check both data.treatmentRecord and extractedData.treatmentRecord
     const treatmentRecords = data.treatmentRecord || extractedData.treatmentRecord || extractedData.treatmentRecords || [];
     console.log('✅ Using extracted treatment records:', treatmentRecords);
-    
+
     if (Array.isArray(treatmentRecords) && treatmentRecords.length > 0) {
       treatmentRecords.forEach((record: any) => {
         const row = [
@@ -1041,14 +1014,14 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
       console.log('⚠️ No treatment records found in data');
     }
   }
-  
+
   console.log('📋 Final table body:', tableBody);
-  
+
   // Fill remaining rows to make 30 total
   while (tableBody.length < 30) {
     tableBody.push(['', '', '', '', '', '', '', '']);
   }
-  
+
   autoTable(doc, {
     startY: yPos,
     head: [['Date', 'Tooth\nNo./s', 'Procedure', 'Dentist/s', 'Amount\ncharged', 'Amount\nPaid', 'Balance', 'Next\nAppt.']],
@@ -1091,7 +1064,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(0, 0, 0);
   doc.text('Page 5 of 5', pageWidth / 2, pageHeight - 10, { align: 'center' });
-  
+
   // Add mcml/10 watermark on Page 5 (Treatment Record)
   doc.setFontSize(6);
   doc.setTextColor(180, 180, 180);

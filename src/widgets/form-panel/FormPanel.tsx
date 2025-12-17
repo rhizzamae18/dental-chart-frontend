@@ -47,6 +47,8 @@ export const FormPanel = () => {
     const nextPage = useAppStore((state) => state.nextPage);
     const previousPage = useAppStore((state) => state.previousPage);
     const resetPage = useAppStore((state) => state.resetPage);
+    const formData = useAppStore((state) => state.formData);
+    const extractedData = useAppStore((state) => state.extractedData);
 
     const [showSuccessModal, setShowSuccessModal] = useState(false);
 
@@ -165,6 +167,8 @@ export const FormPanel = () => {
             <SuccessModal
                 isOpen={showSuccessModal}
                 onClose={handleCloseModal}
+                formData={formData}
+                extractedData={extractedData || {}}
             />
         </form>
     );
