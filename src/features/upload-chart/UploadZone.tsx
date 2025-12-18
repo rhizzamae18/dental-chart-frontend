@@ -259,6 +259,7 @@ function flattenExtractedData(data: any): Record<string, unknown> {
   if (data.removalOfTeeth?.initial) flattened['removalInitial'] = data.removalOfTeeth.initial;
   if (data.crownsBridges?.initial) flattened['crownsInitial'] = data.crownsBridges.initial;
   if (data.endodontics?.initial) flattened['rootCanalInitial'] = data.endodontics.initial;
+  if (data.periodontal?.initial) flattened['periodontalInitial'] = data.periodontal.initial;
   if (data.fillings?.initial) flattened['fillingsInitial'] = data.fillings.initial;
   if (data.dentures?.initial) flattened['denturesInitial'] = data.dentures.initial;
 

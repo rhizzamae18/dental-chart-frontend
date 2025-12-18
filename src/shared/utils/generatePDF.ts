@@ -614,47 +614,59 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   const consentSections = [
     {
       title: 'TREATMENT TO BE DONE:',
-      text: 'I understand and consent to have any treatment done by the dentist. After the procedure, the risks & benefits & cost have been fully explained. These treatments include, but are not limited to x-rays, cleanings/periodontal therapy, fillings, crowns, bridges & root canal therapy, local anesthetics & surgical cases.'
+      text: 'I understand and consent to have any treatment done by the dentist. After the procedure, the risks & benefits & cost have been fully explained. These treatments include, but are not limited to x-rays, cleanings/periodontal therapy, fillings, crowns, bridges & root canal therapy, local anesthetics & surgical cases.',
+      initialKey: 'treatmentInitial'
     },
     {
       title: 'DRUGS & MEDICATIONS:',
-      text: 'I understand that antibiotics, analgesics & other medications can cause allergic reactions like redness & swelling of tissues, pain, itching, vomiting, and/or anaphylactic shock.'
+      text: 'I understand that antibiotics, analgesics & other medications can cause allergic reactions like redness & swelling of tissues, pain, itching, vomiting, and/or anaphylactic shock.',
+      initialKey: 'drugsInitial'
     },
     {
       title: 'CHANGES IN TREATMENT PLAN:',
-      text: 'I understand that during treatment it may be necessary to change/add procedures because of conditions found while working on the teeth that was not discovered during examination. For example, root canal therapy may be needed following routine restorative procedures. I give my permission to the dentist to make any/all changes and additions as necessary. It is my responsibility to pay all the extra costs related to the procedures performed.'
+      text: 'I understand that during treatment it may be necessary to change/add procedures because of conditions found while working on the teeth that was not discovered during examination. For example, root canal therapy may be needed following routine restorative procedures. I give my permission to the dentist to make any/all changes and additions as necessary. It is my responsibility to pay all the extra costs related to the procedures performed.',
+      initialKey: 'planChangesInitial'
     },
     {
       title: 'RADIOGRAPH:',
-      text: 'I understand that an x-ray shot or a radiograph maybe necessary as part of diagnostic aid to come up with tentative diagnosis of my Dental problem and to support judgement, but this is not a perfect instrument, & that by its use, the Dentist cannot accurately predict future events, are subject to unpredictable complications that later, on may lead to sudden change of treatment plan and subject to new charges.'
+      text: 'I understand that an x-ray shot or a radiograph maybe necessary as part of diagnostic aid to come up with tentative diagnosis of my Dental problem and to support judgement, but this is not a perfect instrument, & that by its use, the Dentist cannot accurately predict future events, are subject to unpredictable complications that later, on may lead to sudden change of treatment plan and subject to new charges.',
+      initialKey: 'radiographInitial'
     },
     {
       title: 'REMOVAL OF TEETH:',
-      text: 'I understand that alternatives to tooth removal (root canal therapy, crowns & periodontal surgery, etc.) & I completely understand that retaining the teeth by any dental specialty, always removes all the infections, if present, & it may be necessary to have further treatment. I understand the risk involved in having teeth removed, such as pain, swelling, spread of infection, dry socket, loss of feeling in my teeth, lips, tongue & surrounding tissue (paresthesia) that can last for an indefinite period of time. I understand that I may need further treatment under a specialist if complications arise during or following treatment.'
+      text: 'I understand that alternatives to tooth removal (root canal therapy, crowns & periodontal surgery, etc.) & I completely understand that retaining the teeth by any dental specialty, always removes all the infections, if present, & it may be necessary to have further treatment. I understand the risk involved in having teeth removed, such as pain, swelling, spread of infection, dry socket, loss of feeling in my teeth, lips, tongue & surrounding tissue (paresthesia) that can last for an indefinite period of time. I understand that I may need further treatment under a specialist if complications arise during or following treatment.',
+      initialKey: 'removalInitial'
     },
     {
       title: 'CROWNS (CAPS) & BRIDGES:',
-      text: 'Preparing a tooth may irritate the nerve tissue in the center of the tooth, leaving the tooth extra sensitive to heat, cold & pressure. This sensitivity usually subsides, but where it does not, root canal therapy or tooth extraction may be necessary. It may not be possible to match the color of natural teeth exactly with artificial teeth. I further understand that I may be wearing temporary crowns, which may come off easily & that I must be careful to ensure that they are kept on. If they come off before my next visit or if the tooth structure comes off cement, it is my responsibility to see the dentist immediately for permanent cementation within 20 days from tooth preparation, as excessive days delay may allow for tooth movement, which may necessitate a remake of the crown, bridge or cap. I understand that at times of permanent cementation, if there is need to modify the shape/fit/size/color of my new crown, bridges or cap (including shape, fit, size, & color) will be before permanent cementation.'
+      text: 'Preparing a tooth may irritate the nerve tissue in the center of the tooth, leaving the tooth extra sensitive to heat, cold & pressure. This sensitivity usually subsides, but where it does not, root canal therapy or tooth extraction may be necessary. It may not be possible to match the color of natural teeth exactly with artificial teeth. I further understand that I may be wearing temporary crowns, which may come off easily & that I must be careful to ensure that they are kept on. If they come off before my next visit or if the tooth structure comes off cement, it is my responsibility to see the dentist immediately for permanent cementation within 20 days from tooth preparation, as excessive days delay may allow for tooth movement, which may necessitate a remake of the crown, bridge or cap. I understand that at times of permanent cementation, if there is need to modify the shape/fit/size/color of my new crown, bridges or cap (including shape, fit, size, & color) will be before permanent cementation.',
+      initialKey: 'crownsInitial'
     },
     {
       title: 'ENDODONTICS (ROOT CANAL):',
-      text: 'I understand there is no guarantee that a root canal treatment will save a tooth & that complications can occur from the treatment itself, that occasionally metal instruments and/or files are used in their manufacture, and that it may be necessary to have the tooth extracted if complications arise. I also understand that endodontic files & drills are very fragile instruments & stresses vented in their manufacture & calcifications present in teeth can cause them to break apart in the procedure, I am responsible for any additional cost for treatment performed by the endodontist. I understand that a tooth may require removal in spite of all efforts to save it.'
+      text: 'I understand there is no guarantee that a root canal treatment will save a tooth & that complications can occur from the treatment itself, that occasionally metal instruments and/or files are used in their manufacture, and that it may be necessary to have the tooth extracted if complications arise. I also understand that endodontic files & drills are very fragile instruments & stresses vented in their manufacture & calcifications present in teeth can cause them to break apart in the procedure, I am responsible for any additional cost for treatment performed by the endodontist. I understand that a tooth may require removal in spite of all efforts to save it.',
+      initialKey: 'rootCanalInitial'
     },
     {
       title: 'PERIODONTAL DISEASE:',
-      text: 'I understand that periodontal disease is a serious condition causing gum & bone inflammation &/or loss & that can lead eventually to the loss of my teeth. I understand that various treatment plans to correct the condition depending upon each individual situation or without replacement. I understand that undertaking any dental procedures may have necessary adverse effects on my pre-existing periodontal conditions.'
+      text: 'I understand that periodontal disease is a serious condition causing gum & bone inflammation &/or loss & that can lead eventually to the loss of my teeth. I understand that various treatment plans to correct the condition depending upon each individual situation or without replacement. I understand that undertaking any dental procedures may have necessary adverse effects on my pre-existing periodontal conditions.',
+      initialKey: 'periodontalInitial'
     },
     {
       title: 'FILLINGS:',
-      text: 'I understand that care must be exercised in chewing on fillings, especially during the first 24 hours to avoid breakage. I understand that a more extensive restoration than originally planned may sometimes be required due to additional unseen decay. I acknowledge that the newly placed filling or crown, sensitivity is a common, but usually temporary, after-effect of a newly placed filling. I further understand that filling a tooth may irritate the nerve tissue creating sensitivity or requiring further treatment, including root canal treatment or tooth extraction.'
+      text: 'I understand that care must be exercised in chewing on fillings, especially during the first 24 hours to avoid breakage. I understand that a more extensive restoration than originally planned may sometimes be required due to additional unseen decay. I acknowledge that the newly placed filling or crown, sensitivity is a common, but usually temporary, after-effect of a newly placed filling. I further understand that filling a tooth may irritate the nerve tissue creating sensitivity or requiring further treatment, including root canal treatment or tooth extraction.',
+      initialKey: 'fillingsInitial'
     },
     {
       title: 'DENTURES:',
-      text: 'I understand that wearing of dentures can be difficult. Sore spots, altered speech & difficulty in eating are common problems. Immediate dentures (placement of denture immediately after extractions) may be painful. Immediate dentures may require considerable adjusting & several relines. A permanent reline will be needed later, when the tissue is completely healed. This is an additional charge. If a remake is required due to my delay of more than 30 days, there will be additional charges. A permanent reline will be needed later, which is not covered in the initial cost of dentures or surgical extractions if alterations are requested or any time that has not been specified or alterations are requested at any time.'
+      text: 'I understand that wearing of dentures can be difficult. Sore spots, altered speech & difficulty in eating are common problems. Immediate dentures (placement of denture immediately after extractions) may be painful. Immediate dentures may require considerable adjusting & several relines. A permanent reline will be needed later, when the tissue is completely healed. This is an additional charge. If a remake is required due to my delay of more than 30 days, there will be additional charges. A permanent reline will be needed later, which is not covered in the initial cost of dentures or surgical extractions if alterations are requested or any time that has not been specified or alterations are requested at any time.',
+      initialKey: 'denturesInitial'
     }
   ];
 
   consentSections.forEach((section) => {
+    const lineHeight = 2.8;
+
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(7);
     doc.text(section.title, margin, yPos);
@@ -664,7 +676,20 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
     doc.setFontSize(6.5);
     const lines = doc.splitTextToSize(section.text, pageWidth - 2 * margin);
     doc.text(lines, margin, yPos);
-    yPos += lines.length * 2.8 + 2.5;
+
+    const paragraphEndY = yPos + lines.length * lineHeight;
+
+    const initials = getData(section.initialKey);
+
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(7);
+    doc.text(
+      `Initials: ${initials}` || "______",
+      pageWidth - margin - 40,
+      paragraphEndY + 3
+    );
+
+    yPos = paragraphEndY + 7;
   });
 
   // Final consent statement
@@ -675,20 +700,32 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.text(finalLines, margin, yPos);
   yPos += finalLines.length * 2.8 + 5;
 
+  const patientDate = getData('signatureDate');
+
   doc.setDrawColor(0, 0, 0);
   doc.setLineWidth(0.3);
   doc.line(margin, yPos, margin + 70, yPos);
   doc.setFontSize(7);
   doc.text('Patient/Parent/Guardian Signature', margin, yPos + 3.5);
 
+  doc.setFontSize(6.5);
+  doc.text(patientDate || "", margin + 85 + 22.5, yPos - 1, {
+    align: "center",
+  });
   doc.line(margin + 85, yPos, margin + 130, yPos);
+  doc.setFontSize(7);
   doc.text('Date', margin + 100, yPos + 3.5);
 
   yPos += 8;
   doc.line(margin, yPos, margin + 70, yPos);
   doc.text('Dentist Signature', margin, yPos + 3.5);
 
+  doc.setFontSize(6.5);
+  doc.text(patientDate || "", margin + 85 + 22.5, yPos - 1, {
+    align: "center",
+  });
   doc.line(margin + 85, yPos, margin + 130, yPos);
+  doc.setFontSize(7);
   doc.text('Date', margin + 100, yPos + 3.5);
 
   // Add Page 3 footer
@@ -702,7 +739,7 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.addPage();
   yPos = 13;
 
-  // Page 4 Header - Gray rounded header for DENTAL RECORD CHART
+  // Page 4 Header
   yPos = margin + 10;
   doc.setFillColor(180, 180, 180);
   doc.roundedRect(margin + 10, yPos, pageWidth - 2 * margin - 20, 12, 3, 3, 'F');
@@ -712,13 +749,13 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   doc.text('DENTAL RECORD CHART', pageWidth / 2, yPos + 8, { align: 'center' });
   yPos += 18;
 
-  // INTRAORAL EXAMINATION header
+  // INTRAORAL EXAMINATION
   doc.setTextColor(0, 0, 0);
   doc.setFontSize(9);
   doc.setFont('helvetica', 'bold');
   doc.text('INTRAORAL EXAMINATION', margin, yPos);
 
-  // Patient info on the right
+  // Patient info
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
   const fullName = `${getData('firstName')} ${getData('middleName')} ${getData('lastName')}`.trim();
@@ -726,210 +763,359 @@ export const generateDentalChartPDF = (formData: Record<string, any>, extractedD
   yPos += 4;
   doc.text(`Age: ${getData('age') || '___'}`, pageWidth - 110, yPos);
   doc.text(`Gender: M/F ${getData('sex') || '___'}`, pageWidth - 70, yPos);
-  doc.text(`Date: ${new Date().toLocaleDateString()}`, pageWidth - 40, yPos);
+  doc.text(`Date: ${getData('signatureDate') || new Date().toLocaleDateString()}`, pageWidth - 40, yPos);
   yPos += 8;
 
-  // Dental chart with tooth numbers (odontogram)
+  // Dental chart - simplified layout matching template
   const chartStartY = yPos;
   const toothWidth = 7;
   const chartCenterX = pageWidth / 2;
 
-  // Right/Left labels
+  // Parse tooth findings data
+  let toothFindings: any[] = [];
+  try {
+    const toothFindingsStr = getData('toothFindings');
+    if (toothFindingsStr) {
+      toothFindings = JSON.parse(toothFindingsStr);
+    }
+  } catch (e) {
+    // Ignore parsing errors
+  }
+
+  // Helper function to get tooth data
+  const getToothData = (toothNum: string) => {
+    return toothFindings.find((t: any) => t.toothNumber === toothNum);
+  };
+
+  // Helper function to get tooth display text (priority: surgery > restoration > condition)
+  const getToothDisplayText = (toothData: any) => {
+    if (!toothData) return '';
+    
+    // 1st Priority: Check for surgeries (extractions)
+    if (toothData.surgeries && Array.isArray(toothData.surgeries) && toothData.surgeries.length > 0) {
+      const surgery = toothData.surgeries[0];
+      if (surgery === 'EXTRACTION_CARIES') return 'X';
+      if (surgery === 'EXTRACTION_OTHER') return 'XO';
+    }
+    
+    // 2nd Priority: Check for restorations
+    if (toothData.restorations && Array.isArray(toothData.restorations) && toothData.restorations.length > 0) {
+      return toothData.restorations[0]; // AM, CO, JC, etc.
+    }
+    
+    // 3rd Priority: Check for conditions (except PRESENT)
+    if (toothData.condition && toothData.condition !== 'PRESENT') {
+      const codes: Record<string, string> = {
+        'DECAYED': 'D',
+        'MISSING_CARIES': 'M',
+        'MISSING_OTHER': 'MO',
+        'IMPACTED': 'Im',
+        'SUPERNUMERARY': 'Sp',
+        'ROOT_FRAGMENT': 'Rf',
+        'UNERUPTED': 'Un'
+      };
+      return codes[toothData.condition] || '';
+    }
+    
+    return '';
+  };
+
   doc.setFontSize(7);
   doc.setFont('helvetica', 'bold');
   doc.text('RIGHT', margin + 5, chartStartY + 15);
   doc.text('LEFT', pageWidth - margin - 20, chartStartY + 15);
-
-  // Upper permanent teeth (18-11 and 21-28)
-  const upperPerm = ['18', '17', '16', '15', '14', '13', '12', '11', '21', '22', '23', '24', '25', '26', '27', '28'];
-  let xPos = chartCenterX - (upperPerm.length * toothWidth / 2);
-  yPos = chartStartY + 5;
 
   doc.setFontSize(6);
   doc.setFont('helvetica', 'normal');
   doc.setDrawColor(0, 0, 0);
   doc.setLineWidth(0.4);
 
-  // Upper teeth numbers above circles
-  upperPerm.forEach((tooth) => {
-    doc.text(tooth, xPos + 2.5, yPos, { align: 'center' });
+  let xPos = chartCenterX;
+  yPos = chartStartY + 5;
+
+  // 1. Upper deciduous (55-51 and 61-65) - TOP
+  const upperDecid = ['55', '54', '53', '52', '51', '61', '62', '63', '64', '65'];
+  xPos = chartCenterX - (upperDecid.length * toothWidth / 2);
+
+  // Tooth numbers above circles
+  upperDecid.forEach((tooth) => {
+    doc.text(tooth, xPos + 3.5, yPos, { align: 'center' });
     xPos += toothWidth;
   });
 
-  yPos += 3;
+  yPos += 4;
+  xPos = chartCenterX - (upperDecid.length * toothWidth / 2);
+
+  // Circles with conditions
+  upperDecid.forEach((tooth) => {
+    doc.circle(xPos + 3.5, yPos + 1.5, 2.2);
+    
+    const toothData = getToothData(tooth);
+    const displayText = getToothDisplayText(toothData);
+    
+    if (displayText) {
+      doc.setFontSize(4);
+      doc.text(displayText, xPos + 3.5, yPos + 2, { align: 'center' });
+      doc.setFontSize(6);
+    }
+    xPos += toothWidth;
+  });
+
+  yPos += 8;
+
+  // 2. Upper permanent (18-11 and 21-28)
+  const upperPerm = ['18', '17', '16', '15', '14', '13', '12', '11', '21', '22', '23', '24', '25', '26', '27', '28'];
   xPos = chartCenterX - (upperPerm.length * toothWidth / 2);
 
-  // Upper teeth circles
-  upperPerm.forEach(() => {
-    doc.circle(xPos + 3.5, yPos + 3, 3);
+  // Tooth numbers above circles
+  upperPerm.forEach((tooth) => {
+    doc.text(tooth, xPos + 3.5, yPos, { align: 'center' });
+    xPos += toothWidth;
+  });
+
+  yPos += 5;
+  xPos = chartCenterX - (upperPerm.length * toothWidth / 2);
+
+  // Circles with conditions
+  upperPerm.forEach((tooth) => {
+    doc.circle(xPos + 3.5, yPos + 2, 3);
+    
+    const toothData = getToothData(tooth);
+    const displayText = getToothDisplayText(toothData);
+    
+    if (displayText) {
+      doc.setFontSize(5);
+      doc.text(displayText, xPos + 3.5, yPos + 2.5, { align: 'center' });
+      doc.setFontSize(6);
+    }
     xPos += toothWidth;
   });
 
   yPos += 10;
 
-  // Upper primary/deciduous teeth (55-51 and 61-65)
-  const upperDecid = ['55', '54', '53', '52', '51', '61', '62', '63', '64', '65'];
-  xPos = chartCenterX - (upperDecid.length * toothWidth / 2);
-
-  upperDecid.forEach(() => {
-    doc.circle(xPos + 3.5, yPos + 2, 2.2);
-    xPos += toothWidth;
-  });
-
-  yPos += 2;
-  xPos = chartCenterX - (upperDecid.length * toothWidth / 2);
-
-  upperDecid.forEach((tooth) => {
-    doc.text(tooth, xPos + 2.5, yPos + 3, { align: 'center' });
-    xPos += toothWidth;
-  });
-
-  yPos += 8;
-
-  // Lower primary/deciduous teeth (85-81 and 71-75)
-  const lowerDecid = ['85', '84', '83', '82', '81', '71', '72', '73', '74', '75'];
-  xPos = chartCenterX - (lowerDecid.length * toothWidth / 2);
-
-  lowerDecid.forEach((tooth) => {
-    doc.text(tooth, xPos + 2.5, yPos, { align: 'center' });
-    xPos += toothWidth;
-  });
-
-  yPos += 2;
-  xPos = chartCenterX - (lowerDecid.length * toothWidth / 2);
-
-  lowerDecid.forEach(() => {
-    doc.circle(xPos + 3.5, yPos + 2, 2.2);
-    xPos += toothWidth;
-  });
-
-  yPos += 8;
-
-  // Lower permanent teeth (48-41 and 31-38)
+  // 3. Lower permanent (48-41 and 31-38)
   const lowerPerm = ['48', '47', '46', '45', '44', '43', '42', '41', '31', '32', '33', '34', '35', '36', '37', '38'];
   xPos = chartCenterX - (lowerPerm.length * toothWidth / 2);
+  
+  // Circles with conditions
+  lowerPerm.forEach((tooth) => {
+    doc.circle(xPos + 3.5, yPos + 2, 3);
+    
+    const toothData = getToothData(tooth);
+    const displayText = getToothDisplayText(toothData);
+    
+    if (displayText) {
+      doc.setFontSize(5);
+      doc.text(displayText, xPos + 3.5, yPos + 2.5, { align: 'center' });
+      doc.setFontSize(6);
+    }
+    xPos += toothWidth;
+  });
 
-  // Lower teeth circles
-  lowerPerm.forEach(() => {
-    doc.circle(xPos + 3.5, yPos + 3, 3);
+  yPos += 7;
+  xPos = chartCenterX - (lowerPerm.length * toothWidth / 2);
+
+  // Tooth numbers below circles
+  lowerPerm.forEach((tooth) => {
+    doc.text(tooth, xPos + 3.5, yPos, { align: 'center' });
     xPos += toothWidth;
   });
 
   yPos += 6;
-  xPos = chartCenterX - (lowerPerm.length * toothWidth / 2);
 
-  // Lower teeth numbers below circles
-  lowerPerm.forEach((tooth) => {
-    doc.text(tooth, xPos + 2.5, yPos, { align: 'center' });
+  // 4. Lower deciduous (85-81 and 71-75) - BOTTOM
+  const lowerDecid = ['85', '84', '83', '82', '81', '71', '72', '73', '74', '75'];
+  xPos = chartCenterX - (lowerDecid.length * toothWidth / 2);
+
+  // Circles with conditions
+  lowerDecid.forEach((tooth) => {
+    doc.circle(xPos + 3.5, yPos + 1.5, 2.2);
+    
+    const toothData = getToothData(tooth);
+    const displayText = getToothDisplayText(toothData);
+    
+    if (displayText) {
+      doc.setFontSize(4);
+      doc.text(displayText, xPos + 3.5, yPos + 2, { align: 'center' });
+      doc.setFontSize(6);
+    }
+    xPos += toothWidth;
+  });
+
+  yPos += 5;
+  xPos = chartCenterX - (lowerDecid.length * toothWidth / 2);
+  
+  // Tooth numbers below circles
+  lowerDecid.forEach((tooth) => {
+    doc.text(tooth, xPos + 3.5, yPos, { align: 'center' });
     xPos += toothWidth;
   });
 
   yPos += 10;
 
-  // Legend section
-  doc.setFontSize(7);
+
+  // Legend section - 3 columns
+  doc.setFontSize(6);
   doc.setFont('helvetica', 'bold');
-  doc.text('LEGEND:', margin, yPos);
-  yPos += 4;
+  doc.text('Legend:', margin, 145);
 
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(6.5);
-  const legendCol1 = margin;
-  const legendCol2 = margin + 48;
-  const legendCol3 = margin + 96;
-  const legendCol4 = margin + 144;
+  doc.setFontSize(5.5);
 
-  const legends = [
-    ['D - Decay/Caries', 'Am - Amalgam Filling', 'X - Extraction', 'P - Present Tooth'],
-    ['M - Missing', 'Co - Composite Filling', 'Im - Impacted', 'Ab - Abutment'],
-    ['Rf - Root Fragment', 'JC - Jacket Crown', 'Un - Unerupted', 'Pon - Pontic'],
-    ['S - Supernumerary', 'In - Inlay', 'RCT - Root Canal', 'FGC - Full Gold Crown'],
-    ['', 'Imp - Implant', 'MO - Missing due to other cause', '']
+  // Column 1: Condition
+  let legY = 150;
+  const legCol1X = margin + 2;
+  doc.setFont('helvetica', 'bold');
+  doc.text('Condition', legCol1X, legY);
+  legY += 3;
+  doc.setFont('helvetica', 'normal');
+  const conditionItems = [
+    'P - Present Teeth',
+    'D - Decayed (Caries indicated for Filling)',
+    'M - Missing due to Caries',
+    'MO - Missing due to Other Causes',
+    'Im - Impacted Tooth',
+    'Sp - Supernumerary Tooth',
+    'Rf - Root Fragment',
+    'Un - Unerupted'
   ];
-
-  legends.forEach((row) => {
-    if (row[0]) doc.text(row[0], legendCol1, yPos);
-    if (row[1]) doc.text(row[1], legendCol2, yPos);
-    if (row[2]) doc.text(row[2], legendCol3, yPos);
-    if (row[3]) doc.text(row[3], legendCol4, yPos);
-    yPos += 3;
+  conditionItems.forEach((item) => {
+    doc.text(item, legCol1X, legY);
+    legY += 2.5;
   });
 
-  yPos += 4;
-
-  // Clinical findings section
+  // Column 2: Restorations & Prosthetics
+  legY = 150;
+  const legCol2X = margin + 65;
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7);
+  doc.text('Restorations & Prosthetics', legCol2X, legY);
+  legY += 3;
+  doc.setFont('helvetica', 'normal');
+  const restorationItems = [
+    'Am - Amalgam Filling',
+    'Co - Composite Filling',
+    'JC - Jacket Crown',
+    'Ab - Abutment',
+    'Att - Attachment',
+    'P - Pontic',
+    'In - Inlay',
+    'Imp - Implant',
+    'S - Sealants',
+    'Rm - Removable Denture'
+  ];
+  restorationItems.forEach((item) => {
+    doc.text(item, legCol2X, legY);
+    legY += 2.5;
+  });
 
-  const findingsStartY = yPos;
+  // Column 3: Surgery
+  legY = 150;
+  const legCol3X = margin + 130;
+  doc.setFont('helvetica', 'bold');
+  doc.text('Surgery', legCol3X, legY);
+  legY += 3;
+  doc.setFont('helvetica', 'normal');
+  const surgeryItems = [
+    'X - Extraction due to Caries',
+    'XO - Extraction due to Other Causes',
+    '',
+    'X-ray Taken:',
+    '  Periapical (Th No.: ___)',
+    '  Panoramic',
+    '  Cephalometric',
+    '  Occlusal (Upper/Lower)',
+    '  Others:'
+  ];
+  surgeryItems.forEach((item) => {
+    doc.text(item, legCol3X, legY);
+    legY += 2.5;
+  });
+
+  // Clinical findings section - 4 columns
+  const clinicalY = 175;
+  doc.setFontSize(6);
+  doc.setFont('helvetica', 'bold');
 
   // Column 1: Periodontal Screening
-  doc.text('Periodontal Screening:', margin, yPos);
-  yPos += 3.5;
+  doc.text('Periodontal Screening:', margin, clinicalY);
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(6.5);
-  const perioItems = ['__Gingivitis', '__Early Periodontitis', '__Moderate Periodontitis', '__Advanced Periodontitis'];
+  doc.setFontSize(5.5);
+  let perioY = clinicalY + 3;
+  const perioItems = [
+    { label: 'Gingivitis', key: 'gingivitis' },
+    { label: 'Early Periodontitis', key: 'earlyPeriodontitis' },
+    { label: 'Moderate Periodontitis', key: 'moderatePeriodontitis' },
+    { label: 'Advanced Periodontitis', key: 'advancedPeriodontitis' }
+  ];
   perioItems.forEach((item) => {
-    doc.text(item, margin, yPos);
-    yPos += 3;
+    const checked = getData(item.key) === 'present' || getData(item.key) === true;
+    doc.text(checked ? '/' : '_____', margin, perioY);
+    doc.text(item.label, margin + 8, perioY);
+    perioY += 3;
   });
 
   // Column 2: Occlusion
-  yPos = findingsStartY;
+  const occCol = margin + 50;
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7);
-  doc.text('Occlusion:', margin + 48, yPos);
-  yPos += 3.5;
+  doc.setFontSize(6);
+  doc.text('Occlusion:', occCol, clinicalY);
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(6.5);
-  const occItems = ['__Class I', '__Class II', '__Class III', '__Overjet: ___mm', '__Overbite: ___mm', '__Midline Deviation', '__Crossbite'];
+  doc.setFontSize(5.5);
+  let occY = clinicalY + 3;
+  const occItems = [
+    { label: 'Class (Molar)', key: 'occlusionClass' },
+    { label: 'Overjet', key: 'overjet' },
+    { label: 'Overbite', key: 'overbite' },
+    { label: 'Midline Deviation', key: 'midlineDeviation' },
+    { label: 'Crossbite', key: 'crossbite' }
+  ];
   occItems.forEach((item) => {
-    doc.text(item, margin + 48, yPos);
-    yPos += 3;
+    const checked = getData(item.key) === 'present' || getData(item.key) === true || getData(item.key);
+    doc.text(checked ? '/' : '_____', occCol, occY);
+    doc.text(item.label, occCol + 8, occY);
+    occY += 3;
   });
 
   // Column 3: Appliances
-  yPos = findingsStartY;
+  const appCol = margin + 100;
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7);
-  doc.text('Appliances:', margin + 96, yPos);
-  yPos += 3.5;
+  doc.setFontSize(6);
+  doc.text('Appliances:', appCol, clinicalY);
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(6.5);
-  const appItems = ['__Orthodontic', '__Stayplate', '__Denture', '__Others: _________'];
+  doc.setFontSize(5.5);
+  let appY = clinicalY + 3;
+  const appItems = [
+    { label: 'Orthodontic', key: 'orthodontic' },
+    { label: 'Stayplate', key: 'stayplate' },
+    { label: 'Others', key: 'otherAppliances' }
+  ];
   appItems.forEach((item) => {
-    doc.text(item, margin + 96, yPos);
-    yPos += 3;
+    const checked = getData(item.key) === 'present' || getData(item.key) === true || getData(item.key);
+    doc.text(checked ? '/' : '_____', appCol, appY);
+    doc.text(item.label, appCol + 8, appY);
+    appY += 3;
   });
 
-  // Column 4: TMJ/TMD
-  yPos = findingsStartY;
+  // Column 4: TMD
+  const tmdCol = margin + 145;
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7);
-  doc.text('TMJ/TMD:', margin + 144, yPos);
-  yPos += 3.5;
+  doc.setFontSize(6);
+  doc.text('TMD:', tmdCol, clinicalY);
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(6.5);
-  const tmjItems = ['__Clenching', '__Clicking', '__Trismus', '__Muscle Spasm', '__Joint Pain'];
-  tmjItems.forEach((item) => {
-    doc.text(item, margin + 144, yPos);
-    yPos += 3;
+  doc.setFontSize(5.5);
+  let tmdY = clinicalY + 3;
+  const tmdItems = [
+    { label: 'Clenching', key: 'clenching' },
+    { label: 'Clicking', key: 'clicking' },
+    { label: 'Trismus', key: 'trismus' },
+    { label: 'Muscle Spasm', key: 'muscleSpasm' }
+  ];
+  tmdItems.forEach((item) => {
+    const checked = getData(item.key) === 'present' || getData(item.key) === true;
+    doc.text(checked ? '/' : '_____', tmdCol, tmdY);
+    doc.text(item.label, tmdCol + 8, tmdY);
+    tmdY += 3;
   });
-
-  yPos = findingsStartY + 26;
-
-  // Additional clinical notes
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7);
-  doc.text('Clinical Notes:', margin, yPos);
-  yPos += 4;
-  doc.setFont('helvetica', 'normal');
-  doc.setDrawColor(200, 200, 200);
-  doc.setLineWidth(0.3);
-  for (let i = 0; i < 3; i++) {
-    doc.line(margin, yPos, pageWidth - margin, yPos);
-    yPos += 5;
-  }
 
   // Add Page 4 footer
   doc.setFontSize(8);
